@@ -9,10 +9,30 @@ docker run --name pageviewservice -p 8081:8081 springframeworkguru/pageviewservi
 docker run --name pageviewservice -p 8081:8081 -e SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3306/pageviewservice \
 -e SPRING_PROFILES_ACTIVE=mysql springframeworkguru/pageviewservice
 
+docker run --name pageviewservice -p 8081:8081 ^
+--link rabbitmq:rabbitmq ^
+--link mysqldb:mysqldb ^
+-e SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/pageviewservice?useSSL=false^&verifyServerCertificate=false ^
+-e SPRING_PROFILES_ACTIVE=mysql ^
+-e SPRING_RABBITMQ_HOST=rabbitmq ^
+springframeworkguru/pageviewservice
+
 docker run --name pageviewservice -p 8081:8081 \
 --link rabbitmq:rabbitmq \
---link mysqldb:mysqldb \
--e SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/pageviewservice \
+--link mysqldb:mysqldb
+-e SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/pageviewservice?useSSL=false^&verifyServerCertificate=false \
 -e SPRING_PROFILES_ACTIVE=mysql \
 -e SPRING_RABBITMQ_HOST=rabbitmq \
-springframworkguru/pageviewservice
+springframeworkguru/pageviewservice
+
+docker run --name pageviewservice -p 8081:8081 ^
+--link rabbitmq:rabbitmq ^
+--link mysqldb:mysqldb ^
+-e SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/pageviewservice?useSSL=false^&verifyServerCertificate=false ^
+-e SPRING_PROFILES_ACTIVE=mysql ^
+-e SPRING_RABBITMQ_HOST=rabbitmq ^
+mostafamahdijoo/pageviewservice
+
+
+# Example MVN command for CI
+mvn clean package verify docker:push
